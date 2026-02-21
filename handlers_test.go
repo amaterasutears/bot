@@ -4,7 +4,7 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/go-telegram/bot/models"
+	"github.com/amaterasutears/bot/models"
 )
 
 func findHandler(b *Bot, id string) *handler {
