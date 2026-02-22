@@ -10,7 +10,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-telegram/bot/models"
+	"github.com/amaterasutears/bot/machine"
+	"github.com/amaterasutears/bot/models"
 )
 
 const (
@@ -24,11 +25,13 @@ type HttpClient interface {
 	Do(*http.Request) (*http.Response, error)
 }
 
-type ErrorsHandler func(err error)
-type DebugHandler func(format string, args ...any)
-type Middleware func(next HandlerFunc) HandlerFunc
-type HandlerFunc func(ctx context.Context, bot *Bot, update *models.Update)
-type MatchFunc func(update *models.Update) bool
+type (
+	ErrorsHandler func(err error)
+	DebugHandler  func(format string, args ...any)
+	Middleware    func(next HandlerFunc) HandlerFunc
+	HandlerFunc   func(ctx context.Context, bot *Bot, update *models.Update)
+	MatchFunc     func(update *models.Update) bool
+)
 
 // Bot represents Telegram Bot main object
 type Bot struct {
@@ -60,6 +63,8 @@ type Bot struct {
 	allowedUpdates AllowedUpdates
 
 	updates chan *models.Update
+
+	machine *machine.Machine
 }
 
 // New creates new Bot instance
@@ -146,6 +151,10 @@ func (b *Bot) Start(ctx context.Context) {
 	}
 
 	wg.Wait()
+}
+
+func (b *Bot) Machine() *machine.Machine {
+	return b.machine
 }
 
 func defaultErrorsHandler(err error) {

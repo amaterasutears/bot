@@ -1,3 +1,3 @@
-module github.com/go-telegram/bot
+module github.com/amaterasutears/bot
 
 go 1.18

@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/go-telegram/bot/models"
+	"github.com/amaterasutears/bot/models"
 )
 
 type httpClient struct {
@@ -1387,5 +1387,4 @@ func TestBot_Methods(t *testing.T) {
 		assertNoErr(t, err)
 		assertEqualInt(t, 42, resp[0].Score)
 	})
-
 }

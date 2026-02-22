@@ -9,7 +9,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/go-telegram/bot/models"
+	"github.com/amaterasutears/bot/models"
 )
 
 type inputMedia interface {
@@ -22,8 +22,10 @@ type customMarshal interface {
 	MarshalCustom() ([]byte, error)
 }
 
-var customMarshalInterface = reflect.TypeOf(new(customMarshal)).Elem()
-var inputMediaInterface = reflect.TypeOf(new(inputMedia)).Elem()
+var (
+	customMarshalInterface = reflect.TypeOf(new(customMarshal)).Elem()
+	inputMediaInterface    = reflect.TypeOf(new(inputMedia)).Elem()
+)
 
 // buildRequestForm builds form-data for request
 // if params contains InputFile of type InputFileUpload, it will be added to form-data ad upload file. Also, for InputMedia attachments

@@ -1,6 +1,6 @@
 # Golang Telegram Bot
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/go-telegram/bot)](https://goreportcard.com/report/github.com/go-telegram/bot) [![codecov](https://codecov.io/gh/go-telegram/bot/branch/main/graph/badge.svg?token=57B1OR6PCK)](https://codecov.io/gh/go-telegram/bot)
+[![Go Report Card](https://goreportcard.com/badge/github.com/amaterasutears/bot)](https://goreportcard.com/report/github.com/amaterasutears/bot) [![codecov](https://codecov.io/gh/amaterasutears/bot/branch/main/graph/badge.svg?token=57B1OR6PCK)](https://codecov.io/gh/amaterasutears/bot)
 
 ✅ Present in the list of libraries https://core.telegram.org/bots/samples#go
 
@@ -20,8 +20,8 @@ import (
 	"os"
 	"os/signal"
 
-	"github.com/go-telegram/bot"
-	"github.com/go-telegram/bot/models"
+	"github.com/amaterasutears/bot"
+	"github.com/amaterasutears/bot/models"
 )
 
 // Send any text message to the bot after the bot has been started
@@ -61,7 +61,7 @@ Go version: **1.18**
 Install the dependencies:
 
 ```bash
-go get -u github.com/go-telegram/bot
+go get -u github.com/amaterasutears/bot
 ```
 
 Initialize and run the bot:
@@ -84,6 +84,23 @@ func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
 	// this handler will be called for all updates
 }
 ```
+
+## Machine
+
+The Machine component provides a simple and flexible way to manage user state and data persistence in your Telegram bot.
+
+To use Machine, you need to implement the Storage interface:
+```go
+type Storage interface {
+	SetState(ctx context.Context, uid int64, state string) error
+	State(ctx context.Context, uid int64) (string, error)
+	DeleteState(ctx context.Context, uid int64) error
+	SetData(ctx context.Context, uid int64, data Data) error
+	Data(ctx context.Context, uid int64) (DataMap, error)
+	DeleteData(ctx context.Context, uid int64) error
+}
+```
+[Demo in examples](examples/machine/main.go)
 
 ## Webhooks
 
@@ -335,7 +352,7 @@ If you want to use `attach://` format, you should to define `StickerAttachment` 
 fileContent, _ := os.ReadFile("/path/to/telegram.png")
 
 inputSticker1 := models.InputSticker{
-	Sticker:   "https://github.com/go-telegram/bot/blob/main/examples/create_new_sticker_set/images/telegram.png?raw=true",
+	Sticker:   "https://github.com/amaterasutears/bot/blob/main/examples/create_new_sticker_set/images/telegram.png?raw=true",
 	Format:    "static",
 	EmojiList: []string{"1️⃣"},
 }
@@ -463,13 +480,13 @@ if errors.Is(err, mybot.ErrorConflict) {
 
 ## MiniApp misc
 
-Check the repo [go-telegram/miniapp](https://github.com/go-telegram/miniapp) for Telegram MiniApp example.
+Check the repo [amaterasutears/miniapp](https://github.com/amaterasutears/miniapp) for Telegram MiniApp example.
 
-Repo [go-telegram/miniapp-types](https://github.com/go-telegram/miniapp-types) contains TypeScript types definitions for Telegram MiniApp object.
+Repo [amaterasutears/miniapp-types](https://github.com/amaterasutears/miniapp-types) contains TypeScript types definitions for Telegram MiniApp object.
 
 ## UI Components
 
-In the repo https://github.com/go-telegram/ui you can find a some UI elements for your bot.
+In the repo https://github.com/amaterasutears/ui you can find a some UI elements for your bot.
 
 - datepicker
 - inline_keyboard

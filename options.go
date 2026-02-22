@@ -3,7 +3,8 @@ package bot
 import (
 	"time"
 
-	"github.com/go-telegram/bot/models"
+	"github.com/amaterasutears/bot/machine"
+	"github.com/amaterasutears/bot/models"
 )
 
 // Option is a function that configures a bot.
@@ -143,5 +144,12 @@ func WithNotAsyncHandlers() Option {
 func WithInitialOffset(offset int64) Option {
 	return func(b *Bot) {
 		b.lastUpdateID = offset
+	}
+}
+
+// WithMachine allows to set machine
+func WithMachine(machine *machine.Machine) Option {
+	return func(b *Bot) {
+		b.machine = machine
 	}
 }
