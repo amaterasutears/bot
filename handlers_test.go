@@ -35,7 +35,7 @@ func Test_match_func(t *testing.T) {
 
 	h := findHandler(b, id)
 
-	res := h.match(&models.Update{ID: 42})
+	res := h.match(&models.Update{ID: 42}, "")
 	if !called {
 		t.Error("not called")
 	}
@@ -51,12 +51,12 @@ func Test_match_exact(t *testing.T) {
 
 	h := findHandler(b, id)
 
-	res := h.match(&models.Update{Message: &models.Message{Text: "zzz"}})
+	res := h.match(&models.Update{Message: &models.Message{Text: "zzz"}}, "")
 	if res {
 		t.Error("unexpected true result")
 	}
 
-	res = h.match(&models.Update{Message: &models.Message{Text: "xxx"}})
+	res = h.match(&models.Update{Message: &models.Message{Text: "xxx"}}, "")
 	if !res {
 		t.Error("unexpected false result")
 	}
@@ -69,12 +69,12 @@ func Test_match_caption_exact(t *testing.T) {
 
 	h := findHandler(b, id)
 
-	res := h.match(&models.Update{Message: &models.Message{Caption: "zzz"}})
+	res := h.match(&models.Update{Message: &models.Message{Caption: "zzz"}}, "")
 	if res {
 		t.Error("unexpected true result")
 	}
 
-	res = h.match(&models.Update{Message: &models.Message{Caption: "xxx"}})
+	res = h.match(&models.Update{Message: &models.Message{Caption: "xxx"}}, "")
 	if !res {
 		t.Error("unexpected false result")
 	}
@@ -87,12 +87,12 @@ func Test_match_prefix(t *testing.T) {
 
 	h := findHandler(b, id)
 
-	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "xabcdef"}})
+	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "xabcdef"}}, "")
 	if res {
 		t.Error("unexpected true result")
 	}
 
-	res = h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "abcdef"}})
+	res = h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "abcdef"}}, "")
 	if !res {
 		t.Error("unexpected false result")
 	}
@@ -105,12 +105,12 @@ func Test_match_contains(t *testing.T) {
 
 	h := findHandler(b, id)
 
-	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "xxabxx"}})
+	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "xxabxx"}}, "")
 	if res {
 		t.Error("unexpected true result")
 	}
 
-	res = h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "xxabcdef"}})
+	res = h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "xxabcdef"}}, "")
 	if !res {
 		t.Error("unexpected false result")
 	}
@@ -125,12 +125,12 @@ func Test_match_regexp(t *testing.T) {
 
 	h := findHandler(b, id)
 
-	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "123abc"}})
+	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "123abc"}}, "")
 	if res {
 		t.Error("unexpected true result")
 	}
 
-	res = h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "abcdef"}})
+	res = h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "abcdef"}}, "")
 	if !res {
 		t.Error("unexpected false result")
 	}
@@ -143,7 +143,7 @@ func Test_match_invalid_type(t *testing.T) {
 
 	h := findHandler(b, id)
 
-	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "123abc"}})
+	res := h.match(&models.Update{CallbackQuery: &models.CallbackQuery{Data: "123abc"}}, "")
 	if res {
 		t.Error("unexpected true result")
 	}
@@ -191,7 +191,7 @@ func Test_match_exact_game(t *testing.T) {
 		},
 	}
 
-	res := h.match(&u)
+	res := h.match(&u, "")
 	if !res {
 		t.Error("unexpected true result")
 	}
@@ -214,7 +214,7 @@ func Test_match_command_start(t *testing.T) {
 			},
 		}
 
-		res := h.match(&u)
+		res := h.match(&u, "")
 		if !res {
 			t.Error("unexpected result")
 		}
@@ -236,7 +236,7 @@ func Test_match_command_start(t *testing.T) {
 			},
 		}
 
-		res := h.match(&u)
+		res := h.match(&u, "")
 		if !res {
 			t.Error("unexpected result")
 		}
@@ -258,7 +258,7 @@ func Test_match_command_start(t *testing.T) {
 			},
 		}
 
-		res := h.match(&u)
+		res := h.match(&u, "")
 		if res {
 			t.Error("unexpected result")
 		}
@@ -280,7 +280,7 @@ func Test_match_command_start(t *testing.T) {
 			},
 		}
 
-		res := h.match(&u)
+		res := h.match(&u, "")
 		if !res {
 			t.Error("unexpected result")
 		}
@@ -302,7 +302,7 @@ func Test_match_command_start(t *testing.T) {
 			},
 		}
 
-		res := h.match(&u)
+		res := h.match(&u, "")
 		if res {
 			t.Error("unexpected result")
 		}
@@ -324,7 +324,7 @@ func Test_match_command_start(t *testing.T) {
 			},
 		}
 
-		res := h.match(&u)
+		res := h.match(&u, "")
 		if res {
 			t.Error("unexpected result")
 		}
