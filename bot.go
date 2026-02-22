@@ -153,6 +153,10 @@ func (b *Bot) Start(ctx context.Context) {
 	wg.Wait()
 }
 
+func (b *Bot) Machine() *machine.Machine {
+	return b.machine
+}
+
 func defaultErrorsHandler(err error) {
 	log.Printf("[TGBOT] [ERROR] %v", err)
 }
