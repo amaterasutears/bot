@@ -147,8 +147,8 @@ func WithInitialOffset(offset int64) Option {
 	}
 }
 
-// WithMacine allows to set machine
-func WithMacine(machine *machine.Machine) Option {
+// WithMachine allows to set machine
+func WithMachine(machine *machine.Machine) Option {
 	return func(b *Bot) {
 		b.machine = machine
 	}
