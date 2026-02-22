@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/amaterasutears/bot/machine"
 	"github.com/amaterasutears/bot/models"
 )
 
@@ -62,6 +63,8 @@ type Bot struct {
 	allowedUpdates AllowedUpdates
 
 	updates chan *models.Update
+
+	machine *machine.Machine
 }
 
 // New creates new Bot instance

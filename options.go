@@ -3,6 +3,7 @@ package bot
 import (
 	"time"
 
+	"github.com/amaterasutears/bot/machine"
 	"github.com/amaterasutears/bot/models"
 )
 
@@ -143,5 +144,12 @@ func WithNotAsyncHandlers() Option {
 func WithInitialOffset(offset int64) Option {
 	return func(b *Bot) {
 		b.lastUpdateID = offset
+	}
+}
+
+// WithMacine allows to set machine
+func WithMacine(machine *machine.Machine) Option {
+	return func(b *Bot) {
+		b.machine = machine
 	}
 }
