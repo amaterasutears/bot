@@ -85,6 +85,23 @@ func handler(ctx context.Context, b *bot.Bot, update *models.Update) {
 }
 ```
 
+## Machine
+
+The Machine component provides a simple and flexible way to manage user state and data persistence in your Telegram bot.
+
+To use Machine, you need to implement the Storage interface:
+```go
+type Storage interface {
+	SetState(ctx context.Context, uid int64, state string) error
+	State(ctx context.Context, uid int64) (string, error)
+	DeleteState(ctx context.Context, uid int64) error
+	SetData(ctx context.Context, uid int64, data Data) error
+	Data(ctx context.Context, uid int64) (DataMap, error)
+	DeleteData(ctx context.Context, uid int64) error
+}
+```
+[Demo in examples](examples/machine/main.go)
+
 ## Webhooks
 
 If you want to use webhooks, instead of using `bot.Start`, you should use the `bot.StartWebhook` method to start the bot.
