@@ -46,3 +46,48 @@ func ExtractUserIDFromUpdate(upd *models.Update) (int64, bool) {
 
 	return 0, false
 }
+
+func ExtractChatIDFromUpdate(upd *models.Update) (int64, bool) {
+	if upd != nil {
+		switch {
+		case upd.Message != nil:
+			return upd.Message.Chat.ID, true
+		case upd.EditedMessage != nil:
+			return upd.EditedMessage.Chat.ID, true
+		case upd.ChannelPost != nil:
+			return upd.ChannelPost.Chat.ID, true
+		case upd.EditedChannelPost != nil:
+			return upd.EditedChannelPost.Chat.ID, true
+		case upd.MessageReaction != nil:
+			return upd.MessageReaction.Chat.ID, true
+		case upd.CallbackQuery != nil && upd.CallbackQuery.Message.Message != nil:
+			return upd.CallbackQuery.Message.Message.Chat.ID, true
+		case upd.BusinessConnection != nil:
+			return upd.BusinessConnection.UserChatID, true
+		case upd.BusinessMessage != nil:
+			return upd.BusinessMessage.Chat.ID, true
+		case upd.EditedBusinessMessage != nil:
+			return upd.EditedBusinessMessage.Chat.ID, true
+		case upd.DeletedBusinessMessages != nil:
+			return upd.DeletedBusinessMessages.Chat.ID, true
+		case upd.MessageReaction != nil:
+			return upd.MessageReaction.Chat.ID, true
+		case upd.MessageReactionCount != nil:
+			return upd.MessageReactionCount.Chat.ID, true
+		case upd.PollAnswer != nil && upd.PollAnswer.VoterChat != nil:
+			return upd.PollAnswer.VoterChat.ID, true
+		case upd.MyChatMember != nil:
+			return upd.MyChatMember.Chat.ID, true
+		case upd.ChatMember != nil:
+			return upd.ChatMember.Chat.ID, true
+		case upd.ChatJoinRequest != nil:
+			return upd.ChatJoinRequest.Chat.ID, true
+		case upd.ChatBoost != nil:
+			return upd.ChatBoost.Chat.ID, true
+		case upd.RemovedChatBoost != nil:
+			return upd.RemovedChatBoost.Chat.ID, true
+		}
+	}
+
+	return 0, false
+}
