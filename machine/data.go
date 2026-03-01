@@ -7,4 +7,4 @@ type Data struct {
 }
 
 // DataMap holds a collection of data items keyed by string.
-type DataMap map[string]any
+type DataMap map[string]string
