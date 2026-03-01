@@ -346,6 +346,18 @@ func ExtractIDFromEditedBusinessMessage(upd *models.Update) (int, bool) {
 	return upd.EditedBusinessMessage.ID, true
 }
 
+func ExtractMessageIDFromCallbackQuery(upd *models.Update) (int, bool) {
+	if upd == nil {
+		return 0, false
+	}
+
+	if upd.CallbackQuery == nil && upd.CallbackQuery.Message.Message == nil {
+		return 0, false
+	}
+
+	return upd.CallbackQuery.Message.Message.ID, true
+}
+
 func ExtractDataFromCallbackQuery(upd *models.Update) (string, bool) {
 	if upd == nil {
 		return "", false
