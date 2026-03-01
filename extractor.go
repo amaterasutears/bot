@@ -357,3 +357,15 @@ func ExtractDataFromCallbackQuery(upd *models.Update) (string, bool) {
 
 	return upd.CallbackQuery.Data, true
 }
+
+func ExtractCallbackQueryIDFromUpdate(upd *models.Update) (string, bool) {
+	if upd == nil {
+		return "", false
+	}
+
+	if upd.CallbackQuery == nil {
+		return "", false
+	}
+
+	return upd.CallbackQuery.ID, true
+}
