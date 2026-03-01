@@ -274,6 +274,78 @@ func ExtractTextFromReplyToMessage(upd *models.Update) (string, bool) {
 	return upd.Message.ReplyToMessage.Text, true
 }
 
+func ExtractIDFromMessage(upd *models.Update) (int, bool) {
+	if upd == nil {
+		return 0, false
+	}
+
+	if upd.Message == nil {
+		return 0, false
+	}
+
+	return upd.Message.ID, true
+}
+
+func ExtractIDFromEditedMessage(upd *models.Update) (int, bool) {
+	if upd == nil {
+		return 0, false
+	}
+
+	if upd.EditedMessage == nil {
+		return 0, false
+	}
+
+	return upd.EditedMessage.ID, true
+}
+
+func ExtractIDFromChannelPost(upd *models.Update) (int, bool) {
+	if upd == nil {
+		return 0, false
+	}
+
+	if upd.ChannelPost == nil {
+		return 0, false
+	}
+
+	return upd.ChannelPost.ID, true
+}
+
+func ExtractIDFromEditedChannelPost(upd *models.Update) (int, bool) {
+	if upd == nil {
+		return 0, false
+	}
+
+	if upd.EditedChannelPost == nil {
+		return 0, false
+	}
+
+	return upd.EditedChannelPost.ID, true
+}
+
+func ExtractIDFromBusinessMessage(upd *models.Update) (int, bool) {
+	if upd == nil {
+		return 0, false
+	}
+
+	if upd.BusinessMessage == nil {
+		return 0, false
+	}
+
+	return upd.BusinessMessage.ID, true
+}
+
+func ExtractIDFromEditedBusinessMessage(upd *models.Update) (int, bool) {
+	if upd == nil {
+		return 0, false
+	}
+
+	if upd.EditedBusinessMessage == nil {
+		return 0, false
+	}
+
+	return upd.EditedBusinessMessage.ID, true
+}
+
 func ExtractDataFromCallbackQuery(upd *models.Update) (string, bool) {
 	if upd == nil {
 		return "", false
