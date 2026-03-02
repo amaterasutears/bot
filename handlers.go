@@ -28,6 +28,7 @@ const (
 	matchTypeRegexp
 	matchTypeFunc
 	matchTypeState
+	matchTypeCancel
 )
 
 type handler struct {
@@ -44,6 +45,10 @@ type handler struct {
 
 func (h handler) match(update *models.Update, state string) bool {
 	if h.matchType == matchTypeState && h.state == state {
+		return true
+	}
+
+	if h.matchType == matchTypeCancel && state != "" {
 		return true
 	}
 
@@ -140,6 +145,23 @@ func (b *Bot) RegisterHandlerMatchState(state string, f HandlerFunc, m ...Middle
 		id:        id,
 		matchType: matchTypeState,
 		state:     state,
+		handler:   applyMiddlewares(f, m...),
+	}
+
+	b.handlers = append(b.handlers, h)
+
+	return id
+}
+
+func (b *Bot) RegisterHandlerMatchCancel(f HandlerFunc, m ...Middleware) string {
+	b.handlersMx.Lock()
+	defer b.handlersMx.Unlock()
+
+	id := RandomString(16)
+
+	h := handler{
+		id:        id,
+		matchType: matchTypeCancel,
 		handler:   applyMiddlewares(f, m...),
 	}
 
