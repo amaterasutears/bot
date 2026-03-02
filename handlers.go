@@ -24,11 +24,11 @@ const (
 	MatchTypeContains
 	MatchTypeCommand
 	MatchTypeCommandStartOnly
+	MatchTypeCancel
 
 	matchTypeRegexp
 	matchTypeFunc
 	matchTypeState
-	matchTypeCancel
 )
 
 type handler struct {
@@ -45,10 +45,6 @@ type handler struct {
 
 func (h handler) match(update *models.Update, state string) bool {
 	if h.matchType == matchTypeState && h.state == state {
-		return true
-	}
-
-	if h.matchType == matchTypeCancel && state != "" {
 		return true
 	}
 
@@ -84,15 +80,22 @@ func (h handler) match(update *models.Update, state string) bool {
 		entities = update.Message.CaptionEntities
 	}
 
+	if h.matchType == MatchTypeCancel && state != "" {
+		return data == h.pattern
+	}
+
 	if h.matchType == MatchTypeExact && state == "" {
 		return data == h.pattern
 	}
+
 	if h.matchType == MatchTypePrefix && state == "" {
 		return strings.HasPrefix(data, h.pattern)
 	}
+
 	if h.matchType == MatchTypeContains && state == "" {
 		return strings.Contains(data, h.pattern)
 	}
+
 	if h.matchType == MatchTypeCommand && state == "" {
 		for _, e := range entities {
 			if e.Type == models.MessageEntityTypeBotCommand {
@@ -102,6 +105,7 @@ func (h handler) match(update *models.Update, state string) bool {
 			}
 		}
 	}
+
 	if h.matchType == MatchTypeCommandStartOnly && state == "" {
 		for _, e := range entities {
 			if e.Type == models.MessageEntityTypeBotCommand {
@@ -111,9 +115,11 @@ func (h handler) match(update *models.Update, state string) bool {
 			}
 		}
 	}
+
 	if h.matchType == matchTypeRegexp && state == "" {
 		return h.re.Match([]byte(data))
 	}
+
 	return false
 }
 
@@ -145,23 +151,6 @@ func (b *Bot) RegisterHandlerMatchState(state string, f HandlerFunc, m ...Middle
 		id:        id,
 		matchType: matchTypeState,
 		state:     state,
-		handler:   applyMiddlewares(f, m...),
-	}
-
-	b.handlers = append(b.handlers, h)
-
-	return id
-}
-
-func (b *Bot) RegisterHandlerMatchCancel(f HandlerFunc, m ...Middleware) string {
-	b.handlersMx.Lock()
-	defer b.handlersMx.Unlock()
-
-	id := RandomString(16)
-
-	h := handler{
-		id:        id,
-		matchType: matchTypeCancel,
 		handler:   applyMiddlewares(f, m...),
 	}
 
