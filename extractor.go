@@ -267,7 +267,11 @@ func ExtractTextFromReplyToMessage(upd *models.Update) (string, bool) {
 		return "", false
 	}
 
-	if upd.Message == nil && upd.Message.ReplyToMessage == nil {
+	if upd.Message == nil {
+		return "", false
+	}
+
+	if upd.Message.ReplyToMessage == nil {
 		return "", false
 	}
 
@@ -351,7 +355,11 @@ func ExtractMessageIDFromCallbackQuery(upd *models.Update) (int, bool) {
 		return 0, false
 	}
 
-	if upd.CallbackQuery == nil && upd.CallbackQuery.Message.Message == nil {
+	if upd.CallbackQuery == nil {
+		return 0, false
+	}
+
+	if upd.CallbackQuery.Message.Message == nil {
 		return 0, false
 	}
 
